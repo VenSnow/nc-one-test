@@ -50,8 +50,15 @@
                                 There is no apartment with these parameters
                             </p>
                         </div>
-                        <div class="grid">
-                            <ApartmentCard v-for="apartment in apartmentsData.data" :apartment=apartment />
+                        <div class="grid" style="margin-top: 0.5em;">
+                            <el-table :data="apartmentsData.data" style="width:100%">
+                              <el-table-column prop="name" label="Name" width="150" />
+                              <el-table-column prop="bedrooms" label="Bedrooms" width="100" />
+                              <el-table-column prop="bathrooms" label="Bathrooms" width="100" />
+                              <el-table-column prop="storeys" label="Storeys" width="100" />
+                              <el-table-column prop="garages" label="Garages" width="100" />
+                              <el-table-column prop="price" label="Price" />
+                            </el-table>
                         </div>
                     </div>
                 </el-main>
@@ -63,7 +70,6 @@
 <script setup>
 import { ref, onMounted, reactive } from 'vue';
 import axios from "axios";
-import ApartmentCard from "./components/ApartmentCard.vue";
 
 const labelPosition = ref('top')
 
@@ -120,11 +126,6 @@ fetchData()
 <style scoped>
     * {
         font-family: sans-serif;
-    }
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
-        grid-row-gap: 10px;
     }
     #app {
         padding-left: 5%;
