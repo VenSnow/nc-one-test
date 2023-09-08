@@ -45,6 +45,9 @@ class Items extends Query
             'price_to' => [
                 'type' => Type::int(),
             ],
+            'price_order' => [
+                'type' => Type::string(),
+            ]
         ];
     }
 
@@ -72,6 +75,11 @@ class Items extends Query
         }
         if (isset($args['price_to'])) {
             $items->where('price', '<=', $args['price_to']);
+        }
+        if (isset($args['price_order'])) {
+            $args['price_order'] == 'desc'
+                ? $items->orderByDesc('price')
+                : $items->orderBy('price');
         }
 
         return $items->get();

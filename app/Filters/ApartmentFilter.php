@@ -47,6 +47,10 @@ class ApartmentFilter
         if ($this->request->has('price_to')) {
             $this->filterByPriceTo($builder, $this->request->query('price_to'));
         }
+
+        if ($this->request->has('price_order')) {
+            $this->orderByPrice($builder, $this->request->query('price_order'));
+        }
     }
 
     /**
@@ -117,5 +121,18 @@ class ApartmentFilter
     protected function filterByPriceTo(Builder $builder, $priceTo): Builder
     {
         return $builder->where('price', '<=', $priceTo);
+    }
+
+    /**
+     * @param Builder $builder
+     * @param $price
+     * @return Builder
+     */
+    protected function orderByPrice(Builder $builder, $price): Builder
+    {
+        // I did this, because user can send incorrect value and server will return 500
+        $order = $price == 'desc' ? 'desc' : 'asc';
+
+        return $builder->orderBy('price', $order);
     }
 }

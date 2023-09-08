@@ -33,6 +33,12 @@
                         <el-form-item label="Price To">
                             <el-input-number v-model="formLabel.price_to" />
                         </el-form-item>
+                        <el-form-item label="Order by price">
+                          <el-radio-group v-model="formLabel.price_order" class="ml-4">
+                            <el-radio label="asc" size="small">Price Low</el-radio>
+                            <el-radio label="desc" size="small">Price High</el-radio>
+                          </el-radio-group>
+                        </el-form-item>
                     </el-form>
                 </el-aside>
 
@@ -68,7 +74,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, reactive } from 'vue';
+import { ref, reactive } from 'vue';
 import axios from "axios";
 
 const labelPosition = ref('top')
@@ -81,6 +87,7 @@ const formLabel = reactive({
     garages: null,
     price_from: null,
     price_to: null,
+    price_order: null,
 })
 
 const apartmentsData = ref(null)
@@ -98,6 +105,7 @@ async function searchApartment() {
         garages: formLabel.garages,
         price_from: formLabel.price_from,
         price_to: formLabel.price_to,
+        price_order: formLabel.price_order,
     }
 
     try {
