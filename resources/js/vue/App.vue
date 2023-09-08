@@ -73,13 +73,24 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, reactive } from 'vue';
 import axios from "axios";
 
-const labelPosition = ref('top')
+const labelPosition = ref<string>('top')
 
-const formLabel = reactive({
+interface FormLabel {
+    name: string | null,
+    bedrooms: number | null,
+    bathrooms: number | null,
+    storeys: number | null,
+    garages: number | null,
+    price_from: number | null,
+    price_to: number | null,
+    price_order: string | null,
+}
+
+const formLabel: FormLabel = reactive({
     name: null,
     bedrooms: null,
     bathrooms: null,
@@ -90,7 +101,7 @@ const formLabel = reactive({
     price_order: null,
 })
 
-const apartmentsData = ref(null)
+const apartmentsData = ref<any>(null)
 const state = reactive({
     loading: false,
     error: null
@@ -115,14 +126,14 @@ async function searchApartment() {
     }
 }
 
-async function fetchData(filters = null) {
+async function fetchData(filters: any = null) {
     state.loading = true
     state.error = null
     try {
-        const response = await axios.get(`${import.meta.env.VITE_BASE_URL}api/apartments`, { params: filters });
+        const response = await axios.get(`api/apartments`, { params: filters });
         apartmentsData.value = response.data
     } catch (error) {
-        state.error = error.message || 'Something went wrong'
+        state.error = error.message
     } finally {
         state.loading = false;
     }
